@@ -9,7 +9,7 @@ const todoSchema = mongoose.Schema({
         type: String,
     },
     status: {
-        type: Boolean, //true-active,false-inactive
+        type: Boolean, //true-pending,false-complete
         default: true
     }
 },

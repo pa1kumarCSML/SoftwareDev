@@ -8,6 +8,10 @@
 }
 
 .btn {
+  color: rgb(252, 6, 232);
+}
+
+.btn-blue {
   color: blue;
 }
 
@@ -15,9 +19,6 @@
   color: red;
 }
 
-.listItem {
-  background-color: antiquewhite;
-}
 
 /* NavBar.css */
 

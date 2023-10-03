@@ -14,14 +14,14 @@ app.use(cors());
 
 // MongoDB Atlas Connection (replace connection string)
 
-// mongoose.connect(CONNECTION_STRING, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-// });
+mongoose.connect(CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
-// mongoose.connection.on('connected', () => {
-//     console.log('Connected to MongoDB Atlas');
-// });
+mongoose.connection.on('connected', () => {
+    console.log('Connected to MongoDB Atlas');
+});
 
 
 
