@@ -10,9 +10,9 @@ const { createTodoItem, getTodoList,
 // PUT:   /api/todo/updateTodoItem -  to update a pending todo item
 // DELETE:/api/todo/deleteTodoItem - to delete a pending todo item
 
-router.post('/addTodoItem', createTodoItem)
-router.get('/getTodoList', getTodoList)
-router.put('/updateTodoItem', updateTodoItem)
-router.delete('/deleteTodoItem', deleteTodoItem)
+router.post('/', createTodoItem)
+router.get('/', getTodoList)
+router.put('/:id', updateTodoItem)
+router.delete('/:id', deleteTodoItem)
 
 module.exports = router

@@ -5,6 +5,7 @@
 
 .container {
   background-color: aliceblue;
+  border-color: black;
 }
 
 .btn {
@@ -46,4 +47,14 @@ button.active {
 
 button:hover {
   background-color: #45a049;
+}
+
+.card-list {
+  border-width: 1em;
+  border-color: black;
+  padding-left: 5%;
+}
+
+.card {
+  background-color: aqua;
 }

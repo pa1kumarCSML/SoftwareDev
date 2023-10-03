@@ -5,8 +5,8 @@ import axios from 'axios';
 
 // router.post('/addTodoItem', createTodoItem)
 // router.get('/getTodoList', getTodoList)
-// router.put('/updateTodoItem', updateTodoItem)
-// router.delete('/deleteTodoItem', deleteTodoItem)
+// router.put('/:id', updateTodoItem)
+// router.delete('/:id', deleteTodoItem)
 
 function App() {
   const baseURL = 'http://localhost:5000/api/todo/';
@@ -40,13 +40,13 @@ function App() {
     };
 
     axios
-      .post(baseURL + 'addTodoItem', newPost)
+      .post(baseURL, newPost)
       .then((res) => {
-        closePopup();
         setTodoList(...todoList, res.data);
         updateFilterData(activeTab);
         setTitle('');
         setDescription('');
+        closePopup();
       })
       .catch((error) => {
         closePopup();
@@ -59,10 +59,10 @@ function App() {
     // PUT request example (update an existing resource)
 
     const newPost = todoList.filter((post) => post._id === id);
-    newPost.status = false;
+    newPost[0].status = false;
 
     axios
-      .put(baseURL + '/' + id, newPost)
+      .put(baseURL + id, newPost[0])
       .then((res) => {
         todoList.forEach((todo) => {
           if (todo._id === id) {
@@ -70,7 +70,7 @@ function App() {
           }
         });
         setTodoList(todoList);
-        updateFilterData(activeTab);
+        updateFilterData(true);
       })
       .catch((err) => {
         setError(err);
@@ -80,7 +80,7 @@ function App() {
   const deleteData = (id) => {
     // DELETE request example (delete an existing resource)
     axios
-      .delete(baseURL + '/' + id)
+      .delete(baseURL + id)
       .then(() => {
         const updatedList = todoList.filter((post) => post._id !== id);
         setTodoList(updatedList);
@@ -90,20 +90,10 @@ function App() {
         setError(err);
       });
   };
-  const updateFilterData = (tab) => {
-    const filterTodoList = todoList.filter((item) => item.status === tab);
-    setFilterTodoList(filterTodoList);
-  }
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    updateFilterData(tab);
-  };
-
-  useEffect(() => {
-
+  const getTodoList = () => {
     axios
-      .get(baseURL + "getTodoList")
+      .get(baseURL)
       .then((res) => {
         setTodoList(res.data);
         setIsLoading(false);
@@ -113,6 +103,21 @@ function App() {
         setError(error);
         setIsLoading(false);
       });
+  }
+  const updateFilterData = (tab) => {
+    if (Array.isArray(todoList)) {
+      const filterTodoList = todoList.filter((item) => item.status === tab);
+      setFilterTodoList(filterTodoList);
+    }
+  }
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    updateFilterData(tab);
+  };
+
+  useEffect(() => {
+    getTodoList();
   }, []);
 
   return (
@@ -168,12 +173,12 @@ function App() {
             <div className="card-list">
               {filterTodoList.map((item) => (
                 <div className="card" key={item._id}>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
+                  <h3>Title: {item.title}</h3>
+                  <p>Description: {item.description}</p>
                   {activeTab && (
                     <>
-                      <button className='btn' onClick={updateData}>Done</button>
-                      <button className='btn-red' onClick={deleteData}>Delete</button>
+                      <button className='btn' onClick={() => updateData(item._id)}>Done</button>
+                      <button className='btn-red' onClick={() => deleteData(item._id)}>Delete</button>
                     </>
                   )}
                 </div>
