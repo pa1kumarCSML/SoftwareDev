@@ -2,12 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './App.css'
 import axios from 'axios';
 
-
-// router.post('/addTodoItem', createTodoItem)
-// router.get('/getTodoList', getTodoList)
-// router.put('/:id', updateTodoItem)
-// router.delete('/:id', deleteTodoItem)
-
 function App() {
   const baseURL = 'http://localhost:5000/api/todo/';
   const [todoList, setTodoList] = useState([]);
@@ -42,7 +36,10 @@ function App() {
     axios
       .post(baseURL, newPost)
       .then((res) => {
-        setTodoList(...todoList, res.data);
+        //console.log(res.data);
+        todoList.push(res.data);
+        setActiveTab(todoList);
+        console.log(todoList);
         updateFilterData(activeTab);
         setTitle('');
         setDescription('');
@@ -95,6 +92,8 @@ function App() {
     axios
       .get(baseURL)
       .then((res) => {
+        setActiveTab(true);
+        updateFilterData(activeTab);
         setTodoList(res.data);
         setIsLoading(false);
         updateFilterData(activeTab);
