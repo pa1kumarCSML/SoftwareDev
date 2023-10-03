@@ -18,4 +18,4 @@ const todoSchema = mongoose.Schema({
     }
 )
 
-module.exports = mongoose.model('todoList', todoSchema)
+module.exports = mongoose.model('todolists', todoSchema)

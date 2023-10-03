@@ -13,7 +13,9 @@ const createTodoItem = asyncHandler(async (req, res) => {
 
 const getTodoList = asyncHandler(async (req, res) => {
     const todoList = await todoCollection.find();
-    res.status(200).json(todoList)
+    if (todoList) {
+        res.status(200).json(todoList)
+    }
 })
 
 
