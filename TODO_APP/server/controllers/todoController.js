@@ -16,11 +16,6 @@ const getTodoList = asyncHandler(async (req, res) => {
     res.status(200).json(todoList)
 })
 
-const getCompletedTodoList = asyncHandler(async (req, res) => {
-    const todoList = await todoCollection.find({ status: false })
-    res.status(200).json(todoList)
-})
-
 
 const updateTodoItem = asyncHandler(async (req, res) => {
     const todoItem = await todoCollection.findById(req.params.id)
@@ -48,6 +43,6 @@ const deleteTodoItem = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    createTodoItem, getTodoList, getCompletedTodoList,
+    createTodoItem, getTodoList,
     updateTodoItem, deleteTodoItem
 }
