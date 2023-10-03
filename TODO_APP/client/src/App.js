@@ -112,6 +112,7 @@ function App() {
   }
 
   const handleTabChange = (tab) => {
+    closePopup();
     setActiveTab(tab);
     updateFilterData(tab);
   };
