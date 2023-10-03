@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
-const dotenv = require("dotenv").config()
+// const path = require('path');
+//const dotenv = require("dotenv").config()
 const cors = require('cors');
 const mongoose = require('mongoose')
 
@@ -33,9 +33,6 @@ mongoose
 // Define routes here...
 
 app.use('/api/todo', require('./routes/todoRoutes'));
-
-
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

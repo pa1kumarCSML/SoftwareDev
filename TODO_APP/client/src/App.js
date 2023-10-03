@@ -6,8 +6,6 @@ function App() {
   const baseURL = 'http://localhost:5000/api/todo/';
   const [todoList, setTodoList] = useState([]);
   const [filterTodoList, setFilterTodoList] = useState([])
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
   const [title, setTitle] = useState('');
@@ -36,19 +34,15 @@ function App() {
     axios
       .post(baseURL, newPost)
       .then((res) => {
-        //console.log(res.data);
-        todoList.push(res.data);
-        setActiveTab(todoList);
-        console.log(todoList);
-        updateFilterData(activeTab);
+
+        setTodoList(todoList => [...todoList, res.data]);
+        //updateFilterData(activeTab);
         setTitle('');
         setDescription('');
         closePopup();
       })
       .catch((error) => {
         closePopup();
-        setError(error);
-        setIsLoading(false);
       });
   };
 
@@ -61,16 +55,15 @@ function App() {
     axios
       .put(baseURL + id, newPost[0])
       .then((res) => {
-        todoList.forEach((todo) => {
+        setTodoList(todoList => todoList.map((todo) => {
           if (todo._id === id) {
             todo.status = false
           }
-        });
-        setTodoList(todoList);
-        updateFilterData(true);
+          return todo
+        }));
+        //updateFilterData(true);
       })
       .catch((err) => {
-        setError(err);
       });
   };
 
@@ -79,12 +72,11 @@ function App() {
     axios
       .delete(baseURL + id)
       .then(() => {
-        const updatedList = todoList.filter((post) => post._id !== id);
-        setTodoList(updatedList);
-        updateFilterData(activeTab);
+        // const updatedList = todoList.filter((post) => post._id !== id);
+        setTodoList(todoList => todoList.filter((post) => post._id !== id));
+        //updateFilterData(activeTab);
       })
       .catch((err) => {
-        setError(err);
       });
   };
 
@@ -93,32 +85,29 @@ function App() {
       .get(baseURL)
       .then((res) => {
         setActiveTab(true);
-        updateFilterData(activeTab);
         setTodoList(res.data);
-        setIsLoading(false);
-        updateFilterData(activeTab);
       })
       .catch((error) => {
-        setError(error);
-        setIsLoading(false);
       });
-  }
-  const updateFilterData = (tab) => {
-    if (Array.isArray(todoList)) {
-      const filterTodoList = todoList.filter((item) => item.status === tab);
-      setFilterTodoList(filterTodoList);
-    }
   }
 
   const handleTabChange = (tab) => {
     closePopup();
     setActiveTab(tab);
-    updateFilterData(tab);
+    //updateFilterData(tab);
   };
 
   useEffect(() => {
     getTodoList();
   }, []);
+
+  useEffect(() => {
+    const updateFilterData = (tab) => {
+      const filterTodoList = todoList.filter((item) => item.status === tab);
+      setFilterTodoList(filterTodoList);
+    }
+    updateFilterData(activeTab);
+  }, [activeTab, todoList]);
 
   return (
     <div>
@@ -149,7 +138,7 @@ function App() {
           // ) : (
           <>
             {activeTab && (
-              <button className='btn' onClick={openPopup}>Add Task</button>
+              <button className='add-task' onClick={openPopup}>Add Task</button>
             )}
             {showPopup && (
               <div className="popup">
@@ -161,12 +150,12 @@ function App() {
                   placeholder="Enter title"
                 />
                 <label>Description:</label>
-                <textarea
+                <textarea className='txt-area'
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Enter description"
                 />
-                <button className='btn-blue' onClick={postData}>Add</button>
+                <button className='btn' onClick={postData}>Add</button>
                 <button className='btn-red' onClick={closePopup}>Cancel</button>
               </div>
             )}
