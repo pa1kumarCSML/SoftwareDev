@@ -1,0 +1,18 @@
+const mongoose = require('mongoose')
+
+const schema = mongoose.Schema({
+    attributeName1: {
+        type: Number / String / Boolean,
+        required: [true, 'error message'],
+    },
+    attributeName2: {
+        type: Number / String / Boolean,
+        required: [true, 'error message'],
+    },
+},
+    {
+        timestamps: true,
+    }
+)
+
+module.exports = mongoose.model('schemaName', schema)
