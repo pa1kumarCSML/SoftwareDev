@@ -1,26 +1,12 @@
-const btnEvent = document.querySelector(".btn");
-const btnCount = document.querySelector("#btnCount");
-const triggerCount = document.querySelector("#triggerCount");
+var element = document.getElementById("myDiv");
+console.log(element);
 
+var elements = document.getElementsByClassName("paragraph");
+console.log(elements);
 
-btnEvent.addEventListener('click', debounce(handler, 3000));
+var elements = document.getElementsByTagName("p");
+console.log(elements);
 
-var tc = 0;
-var bc = 0;
+var element = document.querySelector(".container .text");
 
-function handler() {
-    triggerCount.innerHTML = ++tc;
-}
-
-function debounce(fun, delay) {
-    let timer;
-    return () => {
-        btnCount.innerHTML = ++bc;
-        if (timer) {
-            clearTimeout(timer)
-        }
-        timer = setTimeout(() => {
-            fun();
-        }, delay);
-    }
-}
+console.log(element);
