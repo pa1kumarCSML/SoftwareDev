@@ -1,12 +1,16 @@
-var element = document.getElementById("myDiv");
-console.log(element);
+// Create a DocumentFragment
+var fragment = document.createDocumentFragment();
 
-var elements = document.getElementsByClassName("paragraph");
-console.log(elements);
+// Add list items to the DocumentFragment
+for (var i = 1; i <= 10; i++) {
+    var listItem = document.createElement("li");
+    listItem.textContent = "Item " + i;
+    fragment.appendChild(listItem);
+}
 
-var elements = document.getElementsByTagName("p");
-console.log(elements);
+// Add the DocumentFragment to the container (minimizing reflows)
+var container = document.getElementById("my-container");
+setTimeout(() => {
+    container.appendChild(fragment);
 
-var element = document.querySelector(".container .text");
-
-console.log(element);
+}, 3000);
